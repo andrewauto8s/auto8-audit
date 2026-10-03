@@ -1,0 +1,353 @@
+@import "tailwindcss";
+
+/* ============================================================
+   AUTO8 AUDIT  ·  design tokens
+   Deliberately restrained. The embedded audit tool owns the
+   visual centre of the page, so the page around it stays quiet:
+   near-white surfaces, one blue accent, the brand spectrum used
+   only as a hairline. Palette is tuned to the tool's own UI so
+   the iframe reads as part of the page rather than a window
+   cut into it.
+   ============================================================ */
+
+@theme inline {
+  --font-sans: var(--font-figtree);
+
+  --color-ink: #0b1222;
+  --color-ink-2: #475569;
+  --color-ink-3: #7c8aa0;
+  --color-line: #e5eaf2;
+  --color-soft: #f6f9fd;
+  --color-brand: #0066ff;
+}
+
+:root {
+  /* Type + surfaces */
+  --ink: #0b1222;
+  --ink-2: #475569;
+  --ink-3: #7c8aa0;
+  --bg: #ffffff;
+  /* Matches the audit tool's own background, so the embed blends. */
+  --soft: #f6f9fd;
+  --line: #e5eaf2;
+
+  /* One accent. The tool uses blue, and so does the Auto8 logo. */
+  --blue: #0066ff;
+  --blue-700: #0047b3;
+  --blue-50: #eef4ff;
+
+  /* Dark band used for the AI section and the footer. */
+  --dark: #0a0f1e;
+  --dark-2: #111a30;
+
+  /* Full Auto8 spectrum. Hairlines and small marks only. */
+  --spectrum: linear-gradient(
+    100deg,
+    #0066ff 0%,
+    #673ab7 28%,
+    #f15ebd 52%,
+    #ff8a3d 76%,
+    #facc15 100%
+  );
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-card: 0 1px 2px rgb(11 18 34 / 0.04), 0 8px 24px -12px rgb(11 18 34 / 0.1);
+  --shadow-lift: 0 2px 4px rgb(11 18 34 / 0.05), 0 18px 44px -18px rgb(11 18 34 / 0.22);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky header must not cover the anchor when the CTA jumps to #audit. */
+  scroll-padding-top: 72px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+::selection {
+  background: rgb(0 102 255 / 0.16);
+}
+
+/* ------------------------------------------------------------
+   Typography helpers. Display sizes use clamp so the page needs
+   no breakpoint juggling between a phone and a wide monitor.
+   ------------------------------------------------------------ */
+.h-display {
+  font-size: clamp(2.25rem, 1.35rem + 3.9vw, 4.25rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+.h-section {
+  font-size: clamp(1.75rem, 1.2rem + 2.1vw, 2.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+.h-card {
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+.lede {
+  font-size: clamp(1.0625rem, 0.98rem + 0.42vw, 1.3125rem);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+/* The one place the full brand spectrum appears at small size. */
+.eyebrow::before {
+  content: "";
+  width: 1.25rem;
+  height: 2px;
+  border-radius: 2px;
+  background-image: var(--spectrum);
+}
+.on-dark .eyebrow {
+  color: rgb(226 232 240 / 0.62);
+}
+
+/* ------------------------------------------------------------
+   Buttons
+   ------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.18s var(--ease), color 0.18s var(--ease),
+    box-shadow 0.18s var(--ease), transform 0.12s var(--ease),
+    border-color 0.18s var(--ease);
+}
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+  padding: 0.95rem 1.6rem;
+  font-size: 1rem;
+  box-shadow: 0 1px 2px rgb(0 56 140 / 0.24), 0 10px 24px -10px rgb(0 102 255 / 0.55);
+}
+.btn-primary:hover {
+  background: var(--blue-700);
+  box-shadow: 0 1px 2px rgb(0 56 140 / 0.3), 0 14px 30px -10px rgb(0 102 255 / 0.6);
+}
+
+.btn-ghost {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 0.95rem 1.5rem;
+  font-size: 1rem;
+}
+.btn-ghost:hover {
+  border-color: #cfd9e8;
+  background: var(--soft);
+}
+
+.btn-sm {
+  padding: 0.6rem 1.1rem;
+  font-size: 0.9375rem;
+}
+
+.on-dark .btn-ghost {
+  background: transparent;
+  color: #fff;
+  border-color: rgb(255 255 255 / 0.22);
+}
+.on-dark .btn-ghost:hover {
+  background: rgb(255 255 255 / 0.08);
+  border-color: rgb(255 255 255 / 0.4);
+}
+
+/* ------------------------------------------------------------
+   Cards
+   ------------------------------------------------------------ */
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.22s var(--ease), transform 0.22s var(--ease),
+    border-color 0.22s var(--ease);
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  border-color: #d8e2f0;
+  box-shadow: var(--shadow-lift);
+}
+
+/* Square icon tile. Tinted blue by default; the AI section flips it. */
+.tile {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 12px;
+  background: var(--blue-50);
+  color: var(--blue);
+  border: 1px solid rgb(0 102 255 / 0.1);
+}
+.tile svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.on-dark .card {
+  background: rgb(255 255 255 / 0.04);
+  border-color: rgb(255 255 255 / 0.1);
+  box-shadow: none;
+}
+.on-dark .tile {
+  background: rgb(255 255 255 / 0.07);
+  border-color: rgb(255 255 255 / 0.12);
+  color: #fff;
+}
+
+/* A single hairline of brand spectrum, used to cap key sections. */
+.rule-spectrum {
+  height: 2px;
+  width: 100%;
+  background-image: var(--spectrum);
+  opacity: 0.9;
+}
+
+/* ============================================================
+   AUDIT EMBED
+   Supplied by the audit tool. The negative offset hides the
+   tool's own header so the page heading is not duplicated.
+   ============================================================ */
+.audit-embed {
+  --internal-header-height: 115px;
+  width: 100%;
+  height: max(700px, 100dvh);
+  overflow: hidden;
+}
+.audit-embed iframe {
+  display: block;
+  width: 100%;
+  height: calc(100% + var(--internal-header-height));
+  border: 0;
+  transform: translateY(calc(-1 * var(--internal-header-height)));
+}
+@media (max-width: 767px) {
+  .audit-embed {
+    height: 100dvh;
+    min-height: 650px;
+  }
+}
+
+/* Frame around the embed. Clipping the corners is what makes the
+   tool read as a product surface rather than a raw iframe. */
+.audit-frame {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--soft);
+  box-shadow: 0 2px 6px rgb(11 18 34 / 0.05), 0 30px 60px -30px rgb(11 18 34 / 0.28);
+}
+
+/* ============================================================
+   HEAT MAP EXAMPLE
+   ============================================================ */
+.heat-cell {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 7px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.22);
+}
+
+/* ============================================================
+   MOTION
+   One effect only: a short fade and lift as a card enters view.
+
+   Deliberately CSS only, and visible by default. An earlier
+   version gated this on IntersectionObserver, which means a
+   failed or slow script leaves whole sections blank. On a page
+   paid traffic lands on, invisible content is lost money, so
+   the animation is pure enhancement: browsers without
+   scroll-driven animation support simply show the content.
+   ============================================================ */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .rise {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 50%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .rise {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .btn,
+  .card {
+    transition: none !important;
+  }
+}
+
+/* Sticky mobile CTA sits above everything; keep the page clear of it. */
+.has-sticky-cta {
+  padding-bottom: 5.5rem;
+}
+@media (min-width: 768px) {
+  .has-sticky-cta {
+    padding-bottom: 0;
+  }
+}
