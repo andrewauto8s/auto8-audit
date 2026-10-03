@@ -253,14 +253,20 @@ body {
 .audit-embed {
   --internal-header-height: 115px;
   width: 100%;
-  /* Fixed height first, dvh second. A browser that does not understand dvh
-     drops that declaration and keeps this one. Without the fallback the whole
-     rule is invalid there, the element collapses to auto height, and the
-     audit renders as a sliver. That matters most in older in-app browsers,
-     which is exactly where paid social traffic lands. */
-  height: 700px;
   height: max(700px, 100dvh);
   overflow: hidden;
+}
+
+/* A browser without dvh drops the height above and the wrapper collapses to
+   auto, rendering the audit as a sliver. Older in-app webviews are where that
+   bites, and paid social traffic lands in one, so they get a fixed height.
+   This has to be a @supports block rather than a second height declaration:
+   the CSS minifier removes duplicate properties within a rule, so a plain
+   fallback line is silently stripped from the production build. */
+@supports not (height: 100dvh) {
+  .audit-embed {
+    height: 700px;
+  }
 }
 .audit-embed iframe {
   display: block;
@@ -272,8 +278,13 @@ body {
 @media (max-width: 767px) {
   .audit-embed {
     min-height: 650px;
-    height: 650px;
     height: 100dvh;
+  }
+
+  @supports not (height: 100dvh) {
+    .audit-embed {
+      height: 650px;
+    }
   }
 }
 
