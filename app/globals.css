@@ -253,6 +253,12 @@ body {
 .audit-embed {
   --internal-header-height: 115px;
   width: 100%;
+  /* Fixed height first, dvh second. A browser that does not understand dvh
+     drops that declaration and keeps this one. Without the fallback the whole
+     rule is invalid there, the element collapses to auto height, and the
+     audit renders as a sliver. That matters most in older in-app browsers,
+     which is exactly where paid social traffic lands. */
+  height: 700px;
   height: max(700px, 100dvh);
   overflow: hidden;
 }
@@ -265,8 +271,9 @@ body {
 }
 @media (max-width: 767px) {
   .audit-embed {
-    height: 100dvh;
     min-height: 650px;
+    height: 650px;
+    height: 100dvh;
   }
 }
 
