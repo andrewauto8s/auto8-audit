@@ -90,7 +90,7 @@ export const DISCOVER: {
   {
     icon: "demand",
     title: "Local search demand",
-    body: "See how many people search for your services every month in your market, so you know the size of the pie before you argue over slices.",
+    body: "See how many people search for your services every month in your market, and what that demand is worth.",
   },
   {
     icon: "search",
@@ -105,7 +105,7 @@ export const DISCOVER: {
   {
     icon: "grid",
     title: "Local rank heat maps",
-    body: "See your rankings mapped across your entire service area, and find the neighborhoods where competitors are quietly beating you.",
+    body: "See your rankings across your entire service area, and the neighborhoods where competitors quietly beat you.",
   },
   {
     icon: "competitors",
@@ -115,14 +115,16 @@ export const DISCOVER: {
   {
     icon: "ai",
     title: "AI search visibility",
-    body: "See whether ChatGPT, Gemini, Claude, Grok, Perplexity and Meta AI recognize your business when someone asks for your service.",
-  },
-  {
-    icon: "opportunity",
-    title: "Market opportunity",
-    body: "See the estimated value of the searches you are not showing up for, and what competitors are putting behind them.",
+    body: "See whether ChatGPT, Gemini, Claude, Grok, Perplexity and Meta AI name your business when someone asks.",
   },
 ];
+
+/** Rendered as a full width card closing the grid, not as a seventh tile. */
+export const DISCOVER_FEATURE = {
+  icon: "opportunity" as const,
+  title: "Market opportunity",
+  body: "Put a number on it. The audit estimates the value of the searches you are not showing up for, and what your competitors are putting behind them to win those customers instead.",
+};
 
 export const WHY = {
   eyebrow: "Why this matters",

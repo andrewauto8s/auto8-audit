@@ -16,6 +16,7 @@ import {
   AUDIT_ANCHOR,
   CTA_LABEL,
   DISCOVER,
+  DISCOVER_FEATURE,
   FINAL_CTA,
   HEATMAP,
   HERO,
@@ -34,6 +35,8 @@ const DISCOVER_ICONS: Record<DiscoverIcon, React.ComponentType<React.SVGProps<SV
   ai: IconSparkles,
   opportunity: IconTarget,
 };
+
+const FeatureIcon = DISCOVER_ICONS[DISCOVER_FEATURE.icon];
 
 /** Shared horizontal rhythm. Every section uses it, so edges always line up. */
 function Container({
@@ -157,6 +160,29 @@ export default function Page() {
                 </article>
               );
             })}
+
+            {/* The seventh item would orphan itself in a three column grid and
+                leave a block of dead space. It is also the payoff item, so it
+                spans the row and carries a CTA instead. */}
+            <article className="card card-hover rise p-6 sm:col-span-2 lg:col-span-3 sm:p-7">
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-7">
+                <span className="tile shrink-0">
+                  <FeatureIcon />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <h3 className="h-card">{DISCOVER_FEATURE.title}</h3>
+                  <p className="mt-2 max-w-2xl text-[0.9375rem] leading-relaxed text-[var(--ink-2)]">
+                    {DISCOVER_FEATURE.body}
+                  </p>
+                </div>
+                <CtaButton
+                  location="discover"
+                  className="btn btn-primary btn-sm shrink-0 self-start sm:self-auto"
+                >
+                  {CTA_LABEL}
+                </CtaButton>
+              </div>
+            </article>
           </div>
         </Container>
       </section>
