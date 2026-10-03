@@ -10,21 +10,16 @@
 /**
  * Canonical origin for metadata, Open Graph and the sitemap.
  *
- * Falls back to the domain Vercel is actually serving production on, which
- * is the custom domain once one is attached and the .vercel.app domain
- * before that. Hardcoding a domain that does not resolve yet is worse than
- * it looks: Facebook fetches the share image from this origin, so a wrong
- * value means ads and shares render with no preview image at all.
+ * Pinned to the custom domain rather than read from the deployment, because
+ * two hostnames serve this page: audit.auto8.ai and the project's
+ * .vercel.app domain. Both must name the same canonical or search engines
+ * treat them as duplicate content and pick a winner themselves, and shares
+ * end up advertising whichever host the visitor happened to use.
  *
  * Set NEXT_PUBLIC_SITE_URL to override.
  */
-const vercelProductionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
-
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ??
-  (vercelProductionUrl
-    ? `https://${vercelProductionUrl}`
-    : "https://audit.auto8.ai");
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://audit.auto8.ai";
 
 /** The embedded audit tool. Override per environment if the host changes. */
 export const AUDIT_EMBED_SRC =
