@@ -126,7 +126,7 @@ export const DISCOVER: {
   {
     icon: "ai",
     title: "AI search visibility",
-    body: "See whether ChatGPT, Gemini, Grok, Meta AI and Perplexity name your business when someone asks.",
+    body: "See whether ChatGPT, Claude, Gemini, Grok, Meta AI and Perplexity name your business when someone asks.",
   },
 ];
 
@@ -152,7 +152,7 @@ export const WHY = {
     },
     {
       title: "AI assistants",
-      body: "ChatGPT, Gemini and others now answer the question directly.",
+      body: "ChatGPT, Claude, Gemini and others now answer the question directly.",
     },
   ],
   close:
@@ -187,13 +187,13 @@ export const AI_SECTION = {
     "Who serves my city for gutter cleaning?",
   ],
   /** Exactly what the audit checks. Keep this in step with the tool. */
-  platforms: ["ChatGPT", "Gemini", "Grok", "Meta AI", "Perplexity"],
+  platforms: ["ChatGPT", "Claude", "Gemini", "Grok", "Meta AI", "Perplexity"],
   close:
     "The audit checks whether these platforms surface your business for your services, and shows you the gaps.",
   /* Required: these are independent products and this must never read as an
      endorsement or partnership. */
   disclaimer:
-    "Platform names are referenced for identification only. Auto8 is not affiliated with, partnered with, or endorsed by OpenAI, Google, xAI, Meta or Perplexity.",
+    "Platform names are referenced for identification only. Auto8 is not affiliated with, partnered with, or endorsed by OpenAI, Anthropic, Google, xAI, Meta or Perplexity.",
 };
 
 /**
