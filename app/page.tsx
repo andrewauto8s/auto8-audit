@@ -275,11 +275,11 @@ export default function Page() {
               <p className="text-sm font-semibold uppercase tracking-[0.14em] text-white/50">
                 Platforms the audit checks
               </p>
-              <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              <ul className="mt-5 flex flex-wrap gap-2.5">
                 {AI_SECTION.platforms.map((p) => (
                   <li
                     key={p}
-                    className="card grid place-items-center px-3 py-5 text-center text-[0.9375rem] font-semibold text-white/90"
+                    className="card rounded-full px-4 py-2.5 text-[0.9375rem] font-semibold text-white/90"
                   >
                     {p}
                   </li>
