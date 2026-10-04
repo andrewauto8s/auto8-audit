@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { META } from "@/app/content";
+import { HERO, META } from "@/app/content";
 
 export const alt = META.ogTitle;
 export const size = { width: 1200, height: 630 };
@@ -9,6 +9,10 @@ export const contentType = "image/png";
  * Generated at build time so the Facebook and LinkedIn share card is a real
  * designed image rather than a screenshot. Deliberately typographic: no logo
  * fetch, no custom font download, nothing that can fail during a build.
+ *
+ * The headline is read from content rather than repeated here. It was
+ * duplicated once and silently drifted out of sync with the page when the
+ * hero copy changed.
  */
 export default function Image() {
   return new ImageResponse(
@@ -57,7 +61,7 @@ export default function Image() {
             maxWidth: 940,
           }}
         >
-          See exactly where your business ranks on Google, Maps and AI.
+          {HERO.heading}
         </div>
 
         <div

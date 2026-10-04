@@ -44,14 +44,14 @@ export const META = {
   title: "Free Local Marketing & AI Rank Audit | Auto8",
   description:
     "See exactly where your business ranks on Google, Google Maps and AI platforms like ChatGPT and Gemini. Run a free local visibility audit and see your rankings, competitors, search demand and heat map in minutes.",
-  ogTitle: "See Exactly Where Your Business Ranks on Google, Maps & AI",
+  ogTitle: "See Exactly Where Your Business Ranks on Google and AI Search",
   ogDescription:
     "Free Local Marketing & AI Rank Audit. Your rankings, your competitors, your market demand and your AI visibility, in minutes.",
 };
 
 export const HERO = {
   eyebrow: "Free Local Marketing & AI Rank Audit",
-  heading: "See exactly where your business ranks on Google, Maps and AI.",
+  heading: "See exactly where your business ranks on Google and AI search.",
   sub: "Run a free audit on your own business and see your Google and Maps rankings, a heat map of your whole service area, the competitors outranking you, and whether AI platforms know you exist.",
   secondary: "Free. No obligation. See your results in minutes.",
   points: [
