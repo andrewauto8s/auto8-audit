@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import AuditEmbedFull from "@/app/components/AuditEmbedFull";
@@ -12,6 +12,32 @@ export const metadata: Metadata = {
   // near contentless page into competition with the real one.
   robots: { index: false, follow: true },
   alternates: { canonical: "/" },
+};
+
+/**
+ * Viewport for this route only.
+ *
+ * iOS Safari zooms the page whenever a focused input has a font size under
+ * 16px. The inputs belong to the third party tool, so their font size is not
+ * ours to change, and the zoom leaves the page wider than the screen with the
+ * layout cut off at both edges. maximumScale stops that automatic zoom.
+ *
+ * It does not trap anyone: since iOS 10 Safari allows pinch zoom regardless of
+ * this value, so a visitor who wants to zoom still can. It is set here rather
+ * than in the root layout so the landing page, whose own type we control, is
+ * unaffected.
+ *
+ * interactiveWidget asks the browser to shrink the layout viewport when the
+ * keyboard opens, instead of sliding a full height page around underneath it.
+ * Support is partial, so it is an improvement where honoured and inert where
+ * it is not.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  interactiveWidget: "resizes-content",
+  themeColor: "#ffffff",
 };
 
 /**
