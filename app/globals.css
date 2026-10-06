@@ -370,3 +370,29 @@ body {
     padding-bottom: 0;
   }
 }
+
+/* ============================================================
+   FULL SCREEN AUDIT ROUTE
+   A thin bar and then the tool, filling the viewport exactly.
+   Nothing to crop and no height to guess, which is the whole
+   point of this route existing alongside the inline embed.
+   ============================================================ */
+.audit-page {
+  display: flex;
+  flex-direction: column;
+  /* vh first so a browser without dvh still gets a full screen. The minifier
+     keeps both because they sit in different @supports conditions. */
+  height: 100vh;
+}
+@supports (height: 100dvh) {
+  .audit-page {
+    height: 100dvh;
+  }
+}
+
+.audit-page-frame {
+  flex: 1 1 auto;
+  /* Without this a flex child refuses to shrink below its content, and the
+     iframe pushes the bar off screen. */
+  min-height: 0;
+}
