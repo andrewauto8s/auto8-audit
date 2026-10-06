@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AUDIT_EMBED_SRC } from "@/app/content";
+import { AUDIT_EMBED_SRC, AUDIT_HEADER_CROP } from "@/app/content";
 
 /** Only messages from the tool's own origin are trusted. */
 const EMBED_ORIGIN = new URL(AUDIT_EMBED_SRC).origin;
@@ -92,9 +92,13 @@ export default function AuditEmbed() {
     <div className="audit-frame">
       <div
         className="audit-embed"
-        // Inline height wins over the stylesheet only once the tool has
-        // actually reported one.
-        style={height ? { height: `${height}px` } : undefined}
+        style={{
+          // How much of the tool's own header to crop. See AUDIT_HEADER_CROP.
+          ["--internal-header-height" as string]: `${AUDIT_HEADER_CROP}px`,
+          // Inline height wins over the stylesheet only once the tool has
+          // actually reported one.
+          ...(height ? { height: `${height}px` } : {}),
+        }}
       >
         <iframe
           src={AUDIT_EMBED_SRC}

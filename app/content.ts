@@ -26,6 +26,24 @@ export const AUDIT_EMBED_SRC =
   process.env.NEXT_PUBLIC_AUDIT_EMBED_SRC ??
   "https://audit.gbp.auto8.ai/light-audit/search";
 
+/**
+ * Pixels cropped off the top of the embedded tool, to hide its own heading.
+ *
+ * Defaults to 0, meaning nothing is hidden. The tool is third party and its
+ * header height is not fixed: the title and subtitle wrap to fewer lines as
+ * the viewport widens, so any constant large enough to hide the header on a
+ * phone will cut into the first step on a desktop. Clipping a control the
+ * visitor needs costs more than showing a duplicate heading, so the safe
+ * value is the default.
+ *
+ * Raise it with NEXT_PUBLIC_AUDIT_HEADER_CROP once you can see what a given
+ * value hides at the widths you care about.
+ */
+export const AUDIT_HEADER_CROP = (() => {
+  const raw = Number(process.env.NEXT_PUBLIC_AUDIT_HEADER_CROP);
+  return Number.isFinite(raw) && raw >= 0 ? raw : 0;
+})();
+
 /** Anchor the whole page points at. */
 export const AUDIT_ANCHOR = "audit";
 
