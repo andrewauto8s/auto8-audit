@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AUDIT_ANCHOR, CTA_LABEL } from "@/app/content";
+import { AUDIT_HREF, CTA_LABEL } from "@/app/content";
 import { trackCta } from "./track";
 
 /**
@@ -9,24 +10,14 @@ import { trackCta } from "./track";
  * phone, where the hero CTA scrolls away in one swipe and there is no header
  * button to fall back on.
  *
- * It hides itself while the audit tool is on screen. A bar telling someone to
- * run the audit, pinned over the audit they are already running, is noise and
- * it covers the tool's own controls.
+ * It appears once the hero is behind you and then stays, since the audit now
+ * lives on its own route and there is nothing on this page for it to cover.
  */
 export default function StickyCta() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const target = document.getElementById(AUDIT_ANCHOR);
-    if (!target) return;
-
-    // Past the hero and not currently looking at the tool.
-    const onScroll = () => {
-      const rect = target.getBoundingClientRect();
-      const toolOnScreen = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-      setVisible(window.scrollY > window.innerHeight * 0.6 && !toolOnScreen);
-    };
-
+    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.6);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
@@ -46,15 +37,15 @@ export default function StickyCta() {
       aria-hidden={!visible}
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
-      <a
-        href={`#${AUDIT_ANCHOR}`}
+      <Link
+        href={AUDIT_HREF}
         className="btn btn-primary w-full"
         data-cta="sticky-mobile"
         tabIndex={visible ? 0 : -1}
         onClick={() => trackCta("sticky-mobile")}
       >
         {CTA_LABEL}
-      </a>
+      </Link>
     </div>
   );
 }

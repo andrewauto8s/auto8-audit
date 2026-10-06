@@ -1,4 +1,3 @@
-import AuditEmbed from "@/app/components/AuditEmbed";
 import CtaButton from "@/app/components/CtaButton";
 import HeatmapDemo from "@/app/components/HeatmapDemo";
 import {
@@ -13,7 +12,6 @@ import {
 } from "@/app/icons";
 import {
   AI_SECTION,
-  AUDIT_ANCHOR,
   CTA_LABEL,
   DISCOVER,
   DISCOVER_FEATURE,
@@ -101,13 +99,11 @@ export default function Page() {
         </Container>
       </section>
 
-      {/* ========================= AUDIT TOOL ==========================
-          Second thing on the page, by design. Everything below it exists
-          only to send people back up here. */}
-      <section
-        id={AUDIT_ANCHOR}
-        className="scroll-mt-[60px] bg-[var(--soft)] pb-16 pt-14 sm:pb-20 sm:pt-16"
-      >
+      {/* ====================== HOW THE AUDIT WORKS ====================
+          Still the second thing on the page. The audit itself now lives on
+          its own screen, so this sets expectations and hands off, rather
+          than trying to host the tool in a box it does not fit. */}
+      <section className="bg-[var(--soft)] pb-16 pt-14 sm:pb-20 sm:pt-16">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <p className="eyebrow justify-center">{TOOL_SECTION.eyebrow}</p>
@@ -129,8 +125,14 @@ export default function Page() {
             ))}
           </ol>
 
-          <div className="mt-8">
-            <AuditEmbed />
+          <div className="mt-9 flex flex-col items-center gap-3">
+            <CtaButton
+              location="steps"
+              className="btn btn-primary w-full sm:w-auto sm:px-9 sm:py-[1.05rem] sm:text-[1.0625rem]"
+            >
+              {CTA_LABEL}
+            </CtaButton>
+            <p className="text-sm text-[var(--ink-3)]">{HERO.secondary}</p>
           </div>
         </Container>
       </section>

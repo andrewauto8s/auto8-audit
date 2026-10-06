@@ -27,25 +27,15 @@ export const AUDIT_EMBED_SRC =
   "https://audit.gbp.auto8.ai/light-audit/search";
 
 /**
- * Pixels cropped off the top of the embedded tool, to hide its own heading.
+ * Where every call to action sends people.
  *
- * Defaults to 0, meaning nothing is hidden. The tool is third party and its
- * header height is not fixed: the title and subtitle wrap to fewer lines as
- * the viewport widens, so any constant large enough to hide the header on a
- * phone will cut into the first step on a desktop. Clipping a control the
- * visitor needs costs more than showing a duplicate heading, so the safe
- * value is the default.
- *
- * Raise it with NEXT_PUBLIC_AUDIT_HEADER_CROP once you can see what a given
- * value hides at the widths you care about.
+ * The audit lives on its own route rather than embedded in this page. A cross
+ * origin iframe cannot be measured from the parent, so an inline embed has to
+ * guess a height, and on a phone that turns the audit into a small scrolling
+ * window inside a scrolling page. Its own screen gives the tool the whole
+ * viewport and nothing has to be guessed.
  */
-export const AUDIT_HEADER_CROP = (() => {
-  const raw = Number(process.env.NEXT_PUBLIC_AUDIT_HEADER_CROP);
-  return Number.isFinite(raw) && raw >= 0 ? raw : 0;
-})();
-
-/** Anchor the whole page points at. */
-export const AUDIT_ANCHOR = "audit";
+export const AUDIT_HREF = "/audit";
 
 export const CTA_LABEL = "Run My Free Audit";
 
@@ -82,7 +72,7 @@ export const HERO = {
 export const TOOL_SECTION = {
   eyebrow: "The audit",
   heading: "Run your free local visibility audit",
-  sub: "Three steps. Start by finding your business.",
+  sub: "Three steps, a few minutes, and nothing to install.",
   steps: [
     {
       n: "1",

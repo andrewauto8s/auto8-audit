@@ -26,7 +26,7 @@ optional except the site URL, which only affects canonical and share metadata.
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Public URL. Drives canonical, Open Graph and the sitemap. |
-| `NEXT_PUBLIC_AUDIT_EMBED_SRC` | The embedded audit tool. Only change if the tool moves. |
+| `NEXT_PUBLIC_AUDIT_EMBED_SRC` | The audit tool shown at `/audit`. Only change if the tool moves. |
 | `NEXT_PUBLIC_GTM_ID` | Google Tag Manager container, `GTM-XXXXXXX`. |
 | `NEXT_PUBLIC_GA4_ID` | GA4 measurement id, `G-XXXXXXXXXX`. |
 | `NEXT_PUBLIC_META_PIXEL_ID` | Meta pixel id. |
@@ -43,9 +43,13 @@ Every call to action is the same `CtaButton` component. On click it reports:
 - the same event through `gtag` for installs without GTM
 - a Meta `trackCustom` event named `AuditCtaClick`
 
-`cta_location` is one of `header`, `hero`, `heatmap`, `footer` or
-`sticky-mobile`, so you can see which placement actually drives audits. Add the
-location to any new CTA you create rather than reusing an existing one.
+`cta_location` is one of `header`, `hero`, `steps`, `discover`, `heatmap`,
+`footer` or `sticky-mobile`, so you can see which placement actually drives
+audits. Add the location to any new CTA you create rather than reusing an
+existing one.
+
+`/audit` additionally fires `audit_page_view` on load, which is the conversion
+step to optimise campaigns against.
 
 ## Editing copy
 
@@ -61,39 +65,58 @@ sentences, no hype, no fake urgency, and no em dashes.
 not render while it is. Add real entries as results come in and the section
 appears on its own. Do not seed it with placeholders.
 
-## The audit embed
+## The audit route
 
-The tool is iframed from `audit.gbp.auto8.ai`. The wrapper in `app/globals.css`
-draws the iframe taller than its frame and pulls it up by 115px so the tool's
-own header is cropped and the page heading is not duplicated.
+The audit lives at `/audit`, on its own screen, and every CTA navigates there.
+It is not embedded in the landing page.
 
-**Known issue on the tool's side:** that host currently returns two conflicting
-framing headers:
+That is deliberate. A cross origin iframe cannot be measured from the parent,
+so an inline embed has to guess a height. Too short and the tool becomes a
+small scrolling window inside a scrolling page, which is poor on a phone and
+most of this traffic is phones. Cropping the tool's own header to avoid a
+duplicate heading made it worse: the crop has to be a constant, but the tool's
+header shrinks as the viewport widens, so a value that hides the header on a
+phone clips the first step on a desktop.
+
+On `/audit` there is nothing to guess. A thin bar, then the tool fills the rest
+of the viewport exactly and its own responsive layout does the work.
+
+The route is `noindex`, since a near contentless page should not compete with
+the landing page in search, and it fires an `audit_page_view` event. Being a
+real page load on our own domain, that is the one point after the ad click we
+can measure: what happens inside the tool is cross origin and invisible to us.
+
+**Known issue on the tool's side:** that host returns two conflicting framing
+headers:
 
 ```
 content-security-policy: frame-ancestors *
 x-frame-options: SAMEORIGIN
 ```
 
-Modern browsers ignore `X-Frame-Options` when a CSP `frame-ancestors` directive
-is present, so embedding works. Older browsers and some in-app webviews honour
-`X-Frame-Options` instead and will refuse to render the frame. Dropping the
-`X-Frame-Options` header on the audit host removes that risk entirely, and is
-worth doing before spending on ads that land in the Facebook in-app browser.
+Browsers ignore `X-Frame-Options` when a CSP `frame-ancestors` directive is
+present, which was verified against Chromium with a Facebook in-app browser
+user agent, so embedding works. Dropping the `X-Frame-Options` header on the
+audit host would remove the ambiguity.
 
 ## Structure
 
 ```
 app/
-  page.tsx                  section layout
-  layout.tsx                metadata, header, footer, analytics
+  layout.tsx                document shell, metadata, analytics
+  globals.css               design tokens and layout CSS
   content.ts                all copy and configuration
-  globals.css               design tokens and the audit embed CSS
   opengraph-image.tsx       generated share card
   robots.ts, sitemap.ts     SEO routes
+  (site)/
+    layout.tsx              header, footer, sticky CTA
+    page.tsx                the landing page
+  audit/
+    page.tsx                the tool, full screen
   components/
-    AuditEmbed.tsx          the iframe
-    CtaButton.tsx           trackable CTA, scrolls to the tool
+    AuditEmbedFull.tsx      the iframe, filling its container
+    AuditPageView.tsx       conversion event for /audit
+    CtaButton.tsx           trackable CTA, navigates to /audit
     StickyCta.tsx           phone-only sticky bar
     HeatmapDemo.tsx         example heat map illustration
     Analytics.tsx           GTM, GA4 and Meta pixel, each optional

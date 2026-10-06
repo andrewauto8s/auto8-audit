@@ -251,7 +251,6 @@ body {
    tool's own header so the page heading is not duplicated.
    ============================================================ */
 .audit-embed {
-  /* Overridden inline from AUDIT_HEADER_CROP; 0 means crop nothing. */
   --internal-header-height: 0px;
   width: 100%;
   height: max(700px, 100dvh);
